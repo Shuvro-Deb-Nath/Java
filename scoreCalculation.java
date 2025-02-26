@@ -1,5 +1,6 @@
 public class scoreCalculation {
     public static void main(String[] args) {
+        int count = 0;
         // Define a 2D array to store students' answers
         char [][] answers = {
             {'A', 'E', 'C', 'C', 'D', 'E', 'E', 'F', 'D', 'A'},
@@ -12,18 +13,20 @@ public class scoreCalculation {
 
         // Loop through each student's answers
         for (int i = 0; i < answers.length; i++) {
-            int count = 0; // Reset count for each student
-            System.out.print((i + 1) + "th student's total correct answers is " + count + ". Correct questions: ");
+            // Reset count for each student
+            count = 0;
             
             // Loop through each answer of the current student
             for (int j = 0; j < answers[i].length; j++) {
                 // Compare the student's answer to the correct answer key
                 if (answers[i][j] == keys[j]) {
                     count++; // Increment count if the answer is correct
-                    System.out.print((j + 1) + " "); // Print the question number that was answered correctly
+                    System.out.print((j + 1) + " no "); // Print the question number that was answered correctly
                 }
+
             }
-            System.out.println(); // Print new line after each student's results
+            // Print the total correct answers for the current student
+            System.out.println(" are correct answer of "+(i + 1) + "th student's total correct answers is " + count );
         }
     }
 }
