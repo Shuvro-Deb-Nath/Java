@@ -10,16 +10,17 @@ public class writeFile {
         try {
         BufferedWriter bw=null;
         FileWriter fw= null;
-        String myContent ="This line would be written into file";
+        String myContent ="This line would be written into file new add  thid time w2 jim";
         File  file = new File("D:/myFile1.txt");
         if(!file.exists()){
             file.createNewFile();
 
         }
 
-        fw= new FileWriter(file);
+        fw= new FileWriter(file,true);
         bw = new BufferedWriter(fw);
         bw.write(myContent);
+bw.newLine();
         System.out.println("Written into file successfuly");
         bw.close();
 
