@@ -1,69 +1,69 @@
-public class FCFS{
-    static class process{
+import java.util.Scanner;
+
+public class FCFS {
+    static class Process {
         int id;
-        int brustTime;
+        int burstTime;
         int completionTime;
 
-        process(int id,int brustTime){
-            this.id=id;
-            this.brustTime=brustTime;
-            this.completionTime=0;
+        Process(int id, int burstTime) {
+            this.id = id;
+            this.burstTime = burstTime;
+            this.completionTime = 0;
         }
     }
 
-
     public static void main(String[] args) {
-        int n=3;
-        process [] processes= {
-            new process(1,24 ),
-            new process(2, 3),
-            new process(3, 3)
-        };
+        Scanner sc = new Scanner(System.in);
+        int n;
 
+        System.out.print("Enter number of processes: ");
+        n = sc.nextInt();
 
-        int curretTime=0;
-        for(int i=0;i<n;i++){
-            curretTime+=processes[i].brustTime;
-            processes[i].completionTime=curretTime;
+        Process[] processes = new Process[n];
 
+        // Input burst time only; assign process ID automatically
+        for (int i = 0; i < n; i++) {
+            System.out.print("Enter Burst Time for Process " + (i + 1) + ": ");
+            int bt = sc.nextInt();
+            processes[i] = new Process(i + 1, bt);
         }
 
+        // Calculate completion times
+        int currentTime = 0;
+        for (int i = 0; i < n; i++) {
+            currentTime += processes[i].burstTime;
+            processes[i].completionTime = currentTime;
+        }
+
+        // Print scheduling table
         System.out.println("\nFCFS Scheduling Table:");
         System.out.println("-----------------------------------------");
         System.out.println("| Process | Burst Time | Completion Time |");
         System.out.println("-----------------------------------------");
-
-
-
-        for(int i=0;i<n;i++){
-            process p=processes[i];
+        for (int i = 0; i < n; i++) {
+            Process p = processes[i];
             System.out.printf("|   P%d    |     %2d     |       %2d        |\n",
-                p.id, p.brustTime, p.completionTime);
+                    p.id, p.burstTime, p.completionTime);
         }
-
-
         System.out.println("-----------------------------------------");
 
-        // Print Gantt Chart
+        // Print Gantt chart
         System.out.println("\nGantt Chart:");
-        System.out.println("---------------------------------");
+        System.out.println("-----------------------------------------");
+        for (int i = 0; i < n; i++) {
+            System.out.print("| P" + processes[i].id + " ");
+        }
+        System.out.println("|");
+        System.out.println("-----------------------------------------");
 
+        // Print time markers
+        System.out.print("0");
+        for (int i = 0; i < n; i++) {
+            System.out.print("   " + processes[i].completionTime);
+        }
+        System.out.println();
 
-for(int i=0;i<n;i++){
-    System.out.print("| p"+ processes[i].id+" ");
-}
-System.out.println("|");
-
-System.out.println("---------------------------------");
-
-// Print time markers
-System.out.print("0");
-for (int i = 0; i < n; i++) {
-    System.out.print("   " + processes[i].completionTime);
-}
-System.out.println();
-
+        sc.close();
     }
-
-   
 }
