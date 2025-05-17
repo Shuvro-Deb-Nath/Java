@@ -1,0 +1,101 @@
+package javajudbc;
+
+import java.sql.*;
+import java.util.Scanner;
+
+public class Javajudbc {
+
+    public static void main(String[] args) {
+        Connection cunn = null;
+        Scanner scanner = new Scanner(System.in);
+
+        try {
+
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            cunn = DriverManager.getConnection("jdbc:mysql://localhost:3307/devdb", "root", "");
+
+            Statement stmt = cunn.createStatement();
+
+            while (true) {
+                System.out.println("What do you want to do? \n1.Add user\n2.Update user\n3.View user\n4.Search user\n5.Delete user\n6.Exit ");
+                System.out.print("Enter your choice here : ");
+                int choice = scanner.nextInt();
+
+                switch (choice) {
+                    case 1:
+                        //This one ids for add
+                        try {
+                            String sql = "INSERT INTO users VALUES (1003, 'Aneesh', 'aneesh@gmail.com')";
+                            int res = stmt.executeUpdate(sql);
+                            if (res > 0) {
+                                System.out.println("Succ");
+                            } else {
+                                System.out.println("Unsucc");
+                            }
+                        } catch (SQLException e) {
+                            System.out.println("Insert Error: " + e.getMessage());
+                        }
+                        break;
+
+                    case 2:
+                        //This one for dupdate data
+                        String sql2 = "update users set email ='ishaan@gmail.com'where userid=1003";
+                        System.out.println("The sql statement id " + sql2 + "\n");
+                        int countUpdate = stmt.executeUpdate(sql2);
+                        System.out.println(countUpdate + "record are affecte \n");
+                        break;
+
+                    case 5:
+                        //This one is for delete data
+                        String sql3 = "DELETE FROM users WHERE userid =1003";
+                        int del = stmt.executeUpdate(sql3);
+                        break;
+
+                    case 3:
+                        //This one is to view data
+                        ResultSet resultSet;
+                        resultSet = stmt.executeQuery("SELECT * FROM users");
+                        int userid;
+                        String name;
+                        String email;
+                        while (resultSet.next()) {
+                            userid = resultSet.getInt("userid");
+                            name = resultSet.getString("name".trim());
+                            email = resultSet.getString("email");
+                            System.out.println("User Id  " + userid + "  Name  " + name + " email " + email);
+                        }
+                        resultSet.close();
+
+                        break;
+                    //this one is for serarch
+                    case 4:
+
+                        String sqlSearch = "SELECT * FROM users WHERE userid = 1003 ";
+                        ResultSet rs = stmt.executeQuery(sqlSearch);
+                        if (rs.next()) {
+                            int uid = rs.getInt("userid");
+                            String uname = rs.getString("name".trim());
+                            String uemail = rs.getString("email");
+                            System.out.println("User found: ID = " + uid + ", Name = " + uname + ", Email = " + uemail);
+                        } else {
+                            System.out.println("No user found with ID " );
+                        }
+                        rs.close();
+                        break;
+
+                    case 6:
+                        System.out.println("Exiting program.");
+                        stmt.close();
+                        cunn.close();
+                        return;
+
+                    default:
+                        System.out.println("Invalid choice.Chosee between 1 to 6");
+                }
+            }
+
+        } catch (Exception ex) {
+            System.out.println("Eroor" + ex.getMessage());
+        }
+    }
+}
