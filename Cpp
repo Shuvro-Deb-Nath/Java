@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char str[1000];
+    
+    printf("Enter comment: ");
+    fgets(str, sizeof(str), stdin);
+
+    // Remove trailing newline if present
+    size_t len = strlen(str);
+    if (len > 0 && str[len - 1] == '\n') {
+        str[len - 1] = '\0';
+    }
+
+    if (str[0] == '/' && str[1] == '/') {
+        printf("It is a single-line comment\n");
+    } 
+    else if (str[0] == '/' && str[1] == '*') {
+        // Check for multiline comment closing
+        if (strstr(str, "*/") != NULL) {
+            printf("It is multi-line comment\n");
+        } else {
+            // If not in same line, read more until "*/" found
+            char temp[1000];
+            while (fgets(temp, sizeof(temp), stdin)) {
+                strcat(str, temp);
+                if (strstr(temp, "*/") != NULL) {
+                    printf("It is multi-line comment\n");
+                    break;
+                }
+            }
+        }
+    } 
+    else {
+        printf("It is not a comment\n");
+    }
+
+    return 0;
+}
